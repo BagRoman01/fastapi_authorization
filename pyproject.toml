@@ -1,0 +1,11 @@
+[project]
+name = "tonalyze"
+version = "0.1.0"
+description = "Add your description here"
+requires-python = ">=3.12"
+dependencies = [
+    "fastapi>=0.115.10",
+    "pydantic-settings>=2.8.1",
+    "sqlmodel>=0.0.23",
+    "uvicorn>=0.34.0",
+]
