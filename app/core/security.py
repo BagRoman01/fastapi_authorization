@@ -3,8 +3,9 @@ from datetime import timedelta, datetime, timezone, UTC
 from secrets import token_hex
 import jwt
 from passlib.context import CryptContext
-from app.core.config import settings
 from fastapi import Response, Request
+
+from app.core.config import settings
 from app.exceptions.token_exceptions import (
     InvalidAccessTokenError,
     NoInfoAccessTokenError,
@@ -91,7 +92,7 @@ def set_refresh_token_to_cookie(
         key='refresh_token',
         value=refresh_token,
         httponly=True,
-        secure=True
+        secure=False
     )
 
 

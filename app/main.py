@@ -1,3 +1,4 @@
+import logging
 from fastapi import FastAPI
 from app.api.endpoints.authentication import auth
 from app.api.endpoints.currency import currency
@@ -8,8 +9,12 @@ import uvicorn
 from contextlib import asynccontextmanager
 from starlette.middleware.cors import CORSMiddleware
 from app.core.config import settings
+from logging_init.logs_init import setup_logging
 
+# Применить настройки логирования
+setup_logging()
 
+log = logging.getLogger(__name__)
 # @asynccontextmanager
 # async def lifespan(this_app: FastAPI):
 #     redis = aioredis.from_url("redis://" + settings.REDIS_HOST, encoding="utf-8", decode_responses=True)
@@ -40,6 +45,11 @@ app.add_middleware(
     allow_headers=["*"]
 )
 print([str(origin).strip().rstrip('/') for origin in settings.FRONTEND_BACKEND_CORS_ORIGINS])
+log.debug("Starting app")
+log.info("This is an info message.")
+log.warning("This is a warning message.")
+log.error("This is an error message.")
+log.critical("This is a critical message.")
 
 if __name__ == '__main__':
     uvicorn.run(app, host=settings.DEPLOY_HOST, port=settings.DEPLOY_PORT)

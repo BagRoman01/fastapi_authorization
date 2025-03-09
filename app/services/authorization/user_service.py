@@ -1,3 +1,5 @@
+import logging
+
 from app.core.security import hash_password
 from app.exceptions.auth_exceptions import (
     UserAlreadyExistsError,
@@ -7,15 +9,20 @@ from app.models.db.user import User
 from app.models.schemas.user import UserCreate
 from app.utils.uow import IUnitOfWork
 
+log = logging.getLogger(__name__)
+
 
 class UsersService:
     def __init__(self, uow: IUnitOfWork):
         self.uow = uow
 
     async def register_user(self, user: UserCreate):
+        log.info(f"Регистрация пользователя: почта: {user.email}, пароль: {user.password}")
+
         async with self.uow:
             existing_user = await self.uow.user_repos.find_by_email(user.email)
             if existing_user:
+                log.warning('Пользователь с таким именем уже существует!')
                 raise UserAlreadyExistsError(email=existing_user.email)
             hashed_pwd = await hash_password(user.password)
             user_dict = user.model_dump()

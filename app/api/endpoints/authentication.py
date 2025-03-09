@@ -1,3 +1,4 @@
+import logging
 from fastapi import APIRouter, Response, Request
 from app.api.dependencies import (
     auth_service_dep,
@@ -9,6 +10,7 @@ from app.models.schemas.user import UserCreate, UserLogin
 from app.services.authorization.auth_service import AuthService
 
 auth = APIRouter(prefix="/auth")
+log = logging.getLogger(__name__)
 
 
 @auth.post("/register")
@@ -16,6 +18,7 @@ async def register_user(
         user: UserCreate,
         service_auth: auth_service_dep
 ):
+    log.info("Регистрация пользователя")
     return await service_auth.register_user(user)
 
 
@@ -26,6 +29,7 @@ async def login_user(
         response: Response,
         fingerprint: fingerprint_dep
 ):
+    log.info("Вход пользователя")
     return await service_auth.authenticate_user(
         user,
         response=response,
@@ -40,7 +44,7 @@ async def refresh_tokens(
         fingerprint: fingerprint_dep,
         service_auth: auth_service_dep,
 ):
-    print('refreshim токены!')
+    log.info("Обновление токенов")
     return await service_auth.refresh_tokens(
         response,
         refresh_token,
@@ -52,7 +56,7 @@ async def refresh_tokens(
 async def authorize(
         tokens: tokens_dep
 ):
-    print('проверка авторизации')
+    log.info("Проверка авторизации пользователя")
     return await AuthService.authorize(tokens)
 
 
@@ -63,6 +67,7 @@ async def logout(
     request: Request,
     fingerprint: fingerprint_dep
 ):
+    log.info("Выход из профиля")
     return await service_auth.logout(
         response,
         request,

@@ -26,13 +26,13 @@ class Repository(RepositoryBase):
 
     async def get_by_id(self, find_id: int) -> model:
         mdl = self.model
-        query_exec = await self.session.execute(select(mdl).where(mdl.get_primary_key() == find_id))
+        query_exec = await self.session.execute(select(mdl).where(mdl.get_primary_key(mdl) == find_id))
         result: mdl = query_exec.scalars().first()
         return result
 
     async def delete_by_id(self, delete_id: int):
         mdl = self.model
-        query_exec = await self.session.execute(delete(mdl).where(mdl.get_primary_key() == delete_id))
+        query_exec = await self.session.execute(delete(mdl).where(mdl.get_primary_key(mdl) == delete_id))
         await self.session.commit()
         return query_exec.rowcount
 

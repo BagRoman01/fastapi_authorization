@@ -14,6 +14,6 @@ class UserRepository(Repository):
 
     async def find_by_id(self, user_id: int) -> model:
         model = self.model
-        query_exec = await self.session.execute(select(model).where(model.get_primary_key() == user_id))
+        query_exec = await self.session.execute(select(model).where(model.get_primary_key(model) == user_id))
         result: model = query_exec.scalars().first()
         return result

@@ -1,3 +1,4 @@
+import logging
 from http.client import HTTPException
 from typing import Annotated
 from fastapi import Depends
@@ -20,6 +21,7 @@ from app.services.authorization.user_service import UsersService
 from app.utils.uow import UnitOfWork, IUnitOfWork
 
 i_uow_dep = Annotated[IUnitOfWork, Depends(UnitOfWork)]
+log = logging.getLogger(__name__)
 
 
 class AuthService:
@@ -28,6 +30,7 @@ class AuthService:
         self.user_service = UsersService(uow)
 
     async def register_user(self, user: UserCreate):
+        log.info("Регистрация пользователя")
         user = await self.user_service.register_user(user)
         return {"email": user.email}
 
@@ -37,9 +40,11 @@ class AuthService:
             response: Response,
             fingerprint: str
     ):
+        log.info("Аутентификация пользователя")
         user_from_db = await self.user_service.get_user_from_db(email=user.email)
 
         if not verify_pwd(user.password, user_from_db.hashed_password):
+            print('Ошибка с паролем!')
             raise AuthenticationError
 
         access_token = create_jwt_token(data={"email": user.email})
