@@ -8,14 +8,26 @@ class UserLogin(SQLModel, table=False):
     password: str = Field(nullable=False)
 
     @field_validator('password')
-    def password_length(self, value):
+    @classmethod
+    def password_length(cls, value):
         if len(value) < 6:
-            raise ShortPasswordError
+            raise ShortPasswordError("Пароль должен содержать не менее 6 символов.")
         return value
 
 
-class UserCreate(SQLModel, UserLogin):
+# Модель для регистрации пользователя
+class UserCreate(SQLModel, table=False):
+    email: EmailStr = Field(nullable=False)
+    password: str = Field(nullable=False)
     age: int = Field(default=None, nullable=True)
+
+    # Валидация длины пароля
+    @field_validator('password')
+    @classmethod
+    def password_length(cls, value):
+        if len(value) < 6:
+            raise ShortPasswordError("Пароль должен содержать не менее 6 символов.")
+        return value
 
 
 

@@ -5,5 +5,5 @@ from app.models.base import Base
 
 class User(Base, table=True):
     hashed_password: str = Field(nullable=False)
-    age: int = Field(default=None, nullable=True)
+    age: int | None = Field(default=None, nullable=True)
     email: EmailStr = Field(nullable=False)

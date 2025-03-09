@@ -34,6 +34,9 @@ class Settings(BaseSettings):
     # Additional fields
     MODE: str
 
+    # CURRENCY
+    CURRENCY_API_KEY: str
+
     @property
     def ASYNC_DATABASE_URL(self):
         return f"postgresql+asyncpg://{self.DATABASE_USER}:{self.DATABASE_PASS}@{self.DATABASE_HOST}:{self.DATABASE_PORT}/{self.DATABASE_NAME}"

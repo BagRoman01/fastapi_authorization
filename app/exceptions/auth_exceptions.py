@@ -5,10 +5,10 @@ from starlette import status
 class UserAlreadyExistsError(HTTPException):
     def __init__(
             self,
-            username: str,
+            email: str,
             status_code: int = status.HTTP_400_BAD_REQUEST
     ):
-        super().__init__(status_code=status_code, detail=f"User with username '{username}' already exists.")
+        super().__init__(status_code=status_code, detail=f"User with email '{email}' already exists.")
 
 
 class ShortPasswordError(ValueError):
