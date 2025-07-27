@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/tonalyze.iml" filepath="$PROJECT_DIR$/.idea/tonalyze.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/fastapi_authorization.iml" filepath="$PROJECT_DIR$/.idea/fastapi_authorization.iml" />
     </modules>
   </component>
 </project>
