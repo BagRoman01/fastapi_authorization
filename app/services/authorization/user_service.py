@@ -20,6 +20,7 @@ class UsersService:
         log.info(f"Регистрация пользователя: почта: {user.email}, пароль: {user.password}")
 
         async with self.uow:
+            log.info('Ищем пользователя в базе данных')
             existing_user = await self.uow.user_repos.find_by_email(user.email)
             if existing_user:
                 log.warning('Пользователь с таким именем уже существует!')

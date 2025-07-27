@@ -89,8 +89,9 @@ class AuthService:
             request: Request,
             fingerprint: str
     ):
-
+        log.info("Выход из аккаунта")
         refresh_token = request.cookies.get('refresh_token')
+        log.info(f"Получаем рефреш токен {refresh_token} и отпечаток {fingerprint}")
         result = await self.session_service.delete_session_by_refresh_token_and_fingerprint(
             refresh_token,
             fingerprint
