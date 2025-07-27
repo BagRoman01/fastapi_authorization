@@ -97,4 +97,4 @@ class AuthService:
             fingerprint
         )
         response.delete_cookie('refresh_token')
-        return result
+        return {"deleted_sessions": result}
