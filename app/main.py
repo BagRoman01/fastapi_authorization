@@ -9,7 +9,7 @@ import uvicorn
 from contextlib import asynccontextmanager
 from starlette.middleware.cors import CORSMiddleware
 from app.core.config import settings
-from logging_init.logs_init import setup_logging
+from logging_settings.logs_setup import setup_logging
 
 # Применить настройки логирования
 setup_logging()
@@ -32,6 +32,7 @@ log = logging.getLogger(__name__)
 
 
 # app = FastAPI(lifespan=lifespan)
+setup_logging()
 app = FastAPI()
 
 app.include_router(auth)
