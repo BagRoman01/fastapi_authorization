@@ -45,11 +45,7 @@ app.add_middleware(
     allow_headers=["*"]
 )
 print([str(origin).strip().rstrip('/') for origin in settings.FRONTEND_BACKEND_CORS_ORIGINS])
-log.debug("Starting app")
-log.info("This is an info message.")
-log.warning("This is a warning message.")
-log.error("This is an error message.")
-log.critical("This is a critical message.")
+
 
 if __name__ == '__main__':
     uvicorn.run(app, host=settings.DEPLOY_HOST, port=settings.DEPLOY_PORT)
