@@ -89,8 +89,8 @@ DEPLOY_PORT=8000
 # USING MODE
 MODE=DEV
 
-# CURRENCY привел рабочий ключ (Внешняя API)
-CURRENCY_API_KEY=fca_live_djyfQuoQsKJqnpBJITsPVg3bwiOxyFxVQwChXJVp
+# CURRENCY (Внешняя API)
+CURRENCY_API_KEY=здесь надо указать рабочий API ключ
 ```
 ---
 
@@ -191,7 +191,7 @@ Refresh_token устанавливается в cookie.
 ```json
 # Response 200
 {
-  "message": "Вы успешно вышли из системы"
+  "deleted_sessions": 1
 }
 ```
 
@@ -207,17 +207,6 @@ Refresh_token устанавливается в cookie.
 
 * `Authorization: Bearer <access_token>`
 
-```json
-# Response 200
-{
-  "base": "RUB",
-  "rates": {
-    "USD": 0.011,
-    "EUR": 0.0101
-  }
-}
-```
-
 ---
 
 ### 💳 7. Конвертация валют
@@ -231,20 +220,11 @@ Refresh_token устанавливается в cookie.
 ```json
 # Request body
 {
-  "from_currency": "USD",
-  "to_currency": "EUR",
+  "base_cur": "USD",
+  "cur_to": "EUR",
   "amount": 100
 }
 ```
-
-```json
-# Response 200
-{
-  "converted_amount": 92.13,
-  "rate": 0.9213
-}
-```
-
 ---
 
 ### 📈 8. История курса валют
@@ -258,183 +238,10 @@ Refresh_token устанавливается в cookie.
 ```json
 # Request body
 {
-  "from_currency": "USD",
-  "to_currency": "EUR",
-  "amount": 100,
-  "date": "2024-01-01"
-}
-```
-
-```json
-# Response 200
-{
-  "converted_amount": 91.87,
-  "rate": 0.9187,
-  "date": "2024-01-01"
-}
-```
----
-
-## ❌ Ошибки и примеры ответов API
-
-### 🔑 Авторизация
-
-#### 1. Неверный email или пароль
-
-**Причина**: пользователь указал неправильные учётные данные при входе.
-
-**Исключение**: `AuthenticationError`
-
-**HTTP Status**: `400 Bad Request`
-
-**Пример запроса**:
-
-```json
-POST /auth/login
-{
-  "email": "user@example.com",
-  "password": "wrongpassword"
-}
-```
-
-**Пример ответа**:
-
-```json
-{
-  "detail": "Login or password is not valid"
-}
-```
-
----
-
-#### 2. Пользователь не найден
-
-**Причина**: пользователь не существует в базе.
-
-**Исключение**: `UserNotFoundError`
-
-**HTTP Status**: `404 Not Found`
-
-**Пример запроса**:
-
-```json
-POST /auth/login
-{
-  "email": "unknown@example.com",
-  "password": "12345678"
-}
-```
-
-**Пример ответа**:
-
-```json
-{
-  "detail": "User not found!"
-}
-```
-
----
-
-#### 3. Пользователь уже существует
-
-**Причина**: попытка регистрации с email, который уже зарегистрирован.
-
-**Исключение**: `UserAlreadyExistsError`
-
-**HTTP Status**: `400 Bad Request`
-
-**Пример запроса**:
-
-```json
-POST /auth/register
-{
-  "email": "admin@example.com",
-  "password": "12345678"
-}
-```
-
-**Пример ответа**:
-
-```json
-{
-  "detail": "User with email 'admin@example.com' already exists."
-}
-```
-
----
-
-#### 4. Слишком короткий пароль
-
-**Причина**: пароль не проходит валидацию по длине.
-
-**Исключение**: `ShortPasswordError`
-
-**Тип**: `ValueError` — возможно не отлавливается FastAPI напрямую, стоит обернуть его в `HTTPException` для API.
-
-**Пример запроса**:
-
-```json
-POST /auth/register
-{
-  "email": "test@example.com",
-  "password": "123"
-}
-```
-
-**Пример ответа** *(если отловить валидационно)*:
-
-```json
-{
-  "detail": "Password must be at least 6 characters long."
-}
-```
-
----
-
-#### 5. Истёкший или недействительный access token
-
-**Причина**: токен невалиден или истёк.
-
-**Источники ошибок**:
-
-* внутри `get_current_user`
-* проверка сессии
-
-**Пример запроса**:
-
-```http
-GET /auth/authorize
-Authorization: Bearer <expired_or_invalid_token>
-```
-
-**Пример ответа**:
-
-```json
-{
-  "detail": "Could not validate credentials"
-}
-```
-
----
-
-#### 6. Истёкший refresh токен
-
-**Причина**: токен либо не найден, либо сессия уже удалена.
-
-**Обработка**: в методе `refresh_tokens`, если `get_session_by_refresh_token` не возвращает сессию.
-
-**Пример запроса**:
-
-```http
-POST /auth/refresh
-Cookie: refresh_token=old_or_invalid_token
-```
-
-**Пример ответа**:
-
-```json
-{
-  "detail": "Could not refresh token. Session expired or not found."
+  "base_cur": "EUR",
+  "cur_to": "USD",
+  "amount": 200,
+  "date": "2024-05-01"
 }
 ```
 ---
