@@ -105,13 +105,14 @@ CURRENCY_API_KEY=fca_live_djyfQuoQsKJqnpBJITsPVg3bwiOxyFxVQwChXJVp
 {
   "email": "user@example.com",
   "password": "securepassword123"
+  "age": 23
 }
 ```
 
 ```json
 # Response 200
 {
-  "message": "Пользователь успешно зарегистрирован"
+  "email": "user@example.com"
 }
 ```
 
@@ -132,10 +133,10 @@ CURRENCY_API_KEY=fca_live_djyfQuoQsKJqnpBJITsPVg3bwiOxyFxVQwChXJVp
 ```json
 # Response 200
 {
-  "access_token": "eyJhbGciOi...",
-  "refresh_token": "eyJhbGciOi...",
+  "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IlJvbWFuMkBleGFtcGxlLmNvbSIsImV4cCI6MTc1MzYyNzk4MX0.bEi3UQUQy91ySPkrrZcepncnyD0oWlJe68lPAHKqEcc",
   "token_type": "bearer"
 }
+Refresh_token устанавливается в cookie.
 ```
 
 ---
@@ -147,15 +148,15 @@ CURRENCY_API_KEY=fca_live_djyfQuoQsKJqnpBJITsPVg3bwiOxyFxVQwChXJVp
 **Headers**:
 
 * `Cookie: refresh_token=...`
-* `X-Fingerprint: ...`
+* `user-agent: ...`
 
 ```json
 # Response 200
 {
-  "access_token": "new_access_token",
-  "refresh_token": "new_refresh_token",
+"access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IlJvbWFuMkBleGFtcGxlLmNvbSIsImV4cCI6MTc1MzYyNzk4MX0.bEi3UQUQy91ySPkrrZcepncnyD0oWlJe68lPAHKqEcc",
   "token_type": "bearer"
 }
+Refresh_token устанавливается в cookie.
 ```
 
 ---
@@ -167,11 +168,11 @@ CURRENCY_API_KEY=fca_live_djyfQuoQsKJqnpBJITsPVg3bwiOxyFxVQwChXJVp
 **Headers**:
 
 * `Authorization: Bearer <access_token>`
-
+  
+  Refresh_token передается в cookie.
 ```json
 # Response 200
 {
-  "user_id": 1,
   "email": "user@example.com"
 }
 ```
@@ -185,7 +186,7 @@ CURRENCY_API_KEY=fca_live_djyfQuoQsKJqnpBJITsPVg3bwiOxyFxVQwChXJVp
 **Headers**:
 
 * `Cookie: refresh_token=...`
-* `X-Fingerprint: ...`
+* `user-agent: ...`
 
 ```json
 # Response 200
